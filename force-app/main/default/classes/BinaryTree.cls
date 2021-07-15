@@ -26,7 +26,7 @@ public class BinaryTree {
     Node root;
 
     // * Method to insert data in binary tree
-    public void insertData(Object data) {
+    private void insertData(Object data) {
 
         // * If root is NULL, create a new node and return
         if(root==NULL) {
