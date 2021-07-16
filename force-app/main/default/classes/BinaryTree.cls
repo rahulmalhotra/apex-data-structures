@@ -2,7 +2,7 @@
 *	Author:- Rahul Malhotra
 *	Description:- Binary Tree implementation in apex
 *	Created Date:- 13-07-2021
-*	Last Modified:- 13-07-2021
+*	Last Modified:- 14-07-2021
 *   Code Origin:- SFDC Stop (https://www.sfdcstop.com)
 */
 public class BinaryTree {
@@ -20,6 +20,9 @@ public class BinaryTree {
             this.right = NULL;
         }
 
+        public Object getData() {
+            return data;
+        }
     }
 
     // * Root of binary tree
@@ -212,5 +215,56 @@ public class BinaryTree {
         else {
             System.debug('Tree not found');
         }
+    }
+
+    /*
+    *  Author:- Rahul Malhotra
+    *  Description:- This method is used to find lowest common ancestor in a binary tree assuming that both object1 and object2 are present
+    */    
+    public Node lowestCommonAncestor(Object object1, Object object2, Comparator comparator) {
+        return lowestCommonAncestor(root, object1, object2, comparator);
+    }
+
+    /*
+    *  Author:- Rahul Malhotra
+    *  Description:- This helper method is used to find lowest common ancestor in a binary tree starting from a particular node
+    */    
+    private Node lowestCommonAncestor(Node current, Object object1, Object object2, Comparator comparator) {        
+
+        // * If the current node is NULL, return NULL
+        if(current==NULL) {
+            return NULL;
+        }
+
+        // * If current node's data is equal to one of object1 or object2, return the current node
+        if(
+            comparator.compare(current.data, object1) || 
+            comparator.compare(current.data, object2)
+        ) {
+            return current;            
+        }
+
+        // * Otherwise, find object1 and object2 in left and right subtree
+        Node left = lowestCommonAncestor(current.left, object1, object2, comparator);
+        Node right = lowestCommonAncestor(current.right, object1, object2, comparator);
+
+        /* 
+        *   If one of object1 or object2 is present in the left subtree and one in right subtree, 
+        *   return the current node as it's the lowest common ancestor
+        */
+        if(left!=NULL && right!=NULL) {
+            return current;
+        } 
+        
+        /* 
+        *   Else if, both the object1 and object2 are present in the left subtree, 
+        *   return the lowest common ancestor returned from the left subtree
+        */
+        else if(left!=NULL) {
+            return left;
+        }
+
+        // * Else, return the lowest common ancestor returned from the right subtree
+        return right;
     }
 }
