@@ -72,6 +72,77 @@ public class BinaryTree {
 
     /*
     *  Author:- Rahul Malhotra
+    *  Description:- This method is used to insert data inside a binary tree based on the parent node's data
+    */
+    public Node insertData(Object data, Object parentData, Comparator comparator) {
+
+        // * If root node is NULL, create a new node, assign it as the root node and return that
+        if(root==NULL) {
+            root = new Node(data);
+            return root;
+        }
+
+        // * Otherwise, call the recursive function using the root node
+        return insertDataRecursive(root, data, parentData, comparator);
+    }
+
+    /*
+    *  Author:- Rahul Malhotra
+    *  Description:- This helper method is used to insert data inside a binary tree based on the parent node's data
+    */
+    private Node insertDataRecursive(Node current, Object data, Object parentData, Comparator comparator) {
+
+        // * If current node's data is equal to parentData
+        if(comparator.compare(current.data, parentData)) {
+
+            // * If left child of current node is NULL, add a new node as the left child of the current node and return that
+            if(current.left==NULL) {
+                current.left = new Node(data);
+                return current.left;
+            } 
+            
+            // * Else if the right child of current node is NULL, add a new node as the right child of the current node and return that
+            else if(current.right==NULL) {
+                current.right = new Node(data);
+                return current.right;
+            } 
+            
+            // * Otherwise, return NULL as the current node already has two nodes and a new node cannot be inserted
+            else {
+                return NULL;
+            }
+        }
+
+        // * If current node's data is not equal to parentData, check in the left and right subtrees
+
+        // * If left subtree exists
+        if(current.left!=NULL) {
+
+            Node left = insertDataRecursive(current.left, data, parentData, comparator);
+
+            // * If the node is inserted in the left subtree, return the value received from the left subtree
+            if(left!=NULL) {
+                return left;
+            }
+        }
+
+        // * If right subtree exists
+        if(current.right!=NULL) {
+
+            Node right = insertDataRecursive(current.right, data, parentData, comparator);
+
+            // * If the node is inserted in the right subtree, return the value received from the right subtree
+            if(right!=NULL) {
+                return right;
+            }
+        }
+
+        // * Otherwise, return NULL as the node cannot be inserted
+        return NULL;
+    }
+
+    /*
+    *  Author:- Rahul Malhotra
     *  Description:- This method is used to create a binary tree
     */
     public void createBinaryTree(List<Object> elements) {
